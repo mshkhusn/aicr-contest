@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIクリエイティブ制作 — AI Creative* Knowledge Base</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-card: #ffffff;
+  --bg-surface: #f0f0f0;
+  --bg-tag: #f5f5f5;
+  --text-primary: #111111;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --border: #e0e0e0;
+  --border-hover: #cccccc;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.09);
+  --ink-pink: #E8326C;
+  --ink-green: #5ED918;
+  --ink-orange: #F07B1A;
+  --ink-purple: #8C3FE6;
+  --ink-blue: #1AB8E8;
+  --ink-yellow: #D6E600;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 5px;
+  --header-h: 56px;
+  --max-w: 1360px;
+  --transition: 0.2s ease;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans JP', 'Outfit', sans-serif;
+  background: var(--bg-secondary); color: var(--text-primary);
+  line-height: 1.7; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+.header {
+  position: sticky; top: 0; z-index: 100; height: var(--header-h);
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  max-width: var(--max-w); margin: 0 auto; padding: 0 32px; height: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header-nav { display: flex; align-items: center; gap: 4px; }
+.header-nav a {
+  padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  color: var(--text-muted); transition: var(--transition);
+}
+.header-nav a:hover { color: var(--text-primary); background: var(--bg-surface); }
+.header-nav a.active { color: var(--text-primary); font-weight: 700; }
+.header-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 7px 14px; width: 220px; transition: var(--transition);
+}
+.header-search:focus-within { border-color: #333; }
+.header-search svg { flex-shrink: 0; color: var(--text-muted); }
+.header-search input {
+  border: none; background: none; outline: none;
+  color: var(--text-primary); font-size: 13px; width: 100%; font-family: inherit;
+}
+.header-search input::placeholder { color: var(--text-muted); }
+
+/* ===== PAGE LAYOUT ===== */
+.page { max-width: var(--max-w); margin: 0 auto; padding: 0 32px; }
+
+/* ===== BREADCRUMB ===== */
+.breadcrumb {
+  padding: 16px 0; font-size: 12px; color: var(--text-muted);
+  display: flex; align-items: center; gap: 6px;
+}
+.breadcrumb a { color: var(--text-secondary); transition: var(--transition); }
+.breadcrumb a:hover { color: var(--text-primary); }
+.breadcrumb-sep { color: var(--text-muted); }
+.breadcrumb-current { color: var(--text-primary); font-weight: 600; }
+
+/* ===== CATEGORY HERO ===== */
+.cat-hero {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 32px 36px; margin-bottom: 28px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cat-hero-left { display: flex; align-items: center; gap: 20px; }
+.cat-hero-icon {
+  width: 56px; height: 56px; border-radius: 16px;
+  display: grid; place-items: center; font-size: 24px; color: #fff;
+}
+.cat-hero-title { font-family: 'Outfit','Noto Sans JP',sans-serif; font-size: 26px; font-weight: 900; }
+.cat-hero-desc { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+.cat-hero-count {
+  font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700;
+  color: var(--text-muted); display: flex; align-items: baseline; gap: 4px;
+}
+.cat-hero-count strong {
+  font-size: 36px; font-weight: 900; color: var(--text-primary);
+}
+
+/* ===== TOOLBAR ===== */
+.toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.toolbar-left { display: flex; align-items: center; gap: 8px; }
+.sub-tab {
+  padding: 6px 16px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  border: 1px solid var(--border); color: var(--text-muted);
+  background: #fff; transition: var(--transition); white-space: nowrap;
+}
+.sub-tab:hover { border-color: var(--border-hover); color: var(--text-primary); }
+.sub-tab.active { background: var(--text-primary); color: #fff; border-color: var(--text-primary); }
+.toolbar-right { display: flex; align-items: center; gap: 12px; }
+.sort-select {
+  padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 500;
+  border: 1px solid var(--border); background: #fff; color: var(--text-secondary);
+  font-family: inherit; cursor: pointer;
+}
+.view-toggle { display: flex; gap: 4px; }
+.view-btn {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: grid; place-items: center; border: 1px solid var(--border);
+  background: #fff; color: var(--text-muted); transition: var(--transition);
+}
+.view-btn.active { background: var(--text-primary); color: #fff; border-color: var(--text-primary); }
+
+/* ===== TWO-COL LAYOUT ===== */
+.content-layout { display: grid; grid-template-columns: 1fr 280px; gap: 24px; }
+
+/* ===== CARD GRID ===== */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  transition: var(--transition); cursor: pointer;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--border-hover); }
+.card-thumb {
+  width: 100%; aspect-ratio: 16/9;
+  background-size: cover; background-position: center;
+  background-color: var(--bg-surface); position: relative;
+}
+.card-thumb-tag {
+  position: absolute; top: 10px; left: 10px;
+  padding: 3px 10px; border-radius: var(--radius-xs);
+  font-size: 10px; font-weight: 800; color: #fff;
+}
+.card-body { padding: 14px 16px 16px; }
+.card-cat { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+.card-title {
+  font-size: 14px; font-weight: 600; line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-meta { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 11px; color: var(--text-muted); }
+.card-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-muted); }
+.card-avatar {
+  width: 20px; height: 20px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800; color: #fff;
+}
+.card-tags { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; }
+.card-tag-sm {
+  padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600;
+  background: var(--bg-surface); color: var(--text-muted);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar-block {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px;
+}
+.sidebar-block + .sidebar-block { margin-top: 14px; }
+.sidebar-title {
+  font-size: 14px; font-weight: 800; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sidebar-dot { width: 8px; height: 8px; border-radius: 50%; }
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag-pill {
+  padding: 5px 14px; border-radius: 100px; font-size: 12px; font-weight: 500;
+  background: var(--bg-surface); color: var(--text-secondary); transition: var(--transition);
+}
+.tag-pill:hover { background: var(--text-primary); color: #fff; }
+.cat-link-list { display: flex; flex-direction: column; gap: 2px; }
+.cat-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 10px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500; color: var(--text-secondary);
+  cursor: pointer; transition: var(--transition);
+}
+.cat-link:hover { background: var(--bg-surface); color: var(--text-primary); }
+.cat-link.active { color: var(--text-primary); font-weight: 700; background: var(--bg-surface); }
+.cat-link-dot { width: 6px; height: 6px; border-radius: 50%; margin-right: 8px; }
+.cat-link-count { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+
+/* ===== PAGINATION ===== */
+.pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: 4px; margin-top: 32px; padding-bottom: 8px;
+}
+.page-btn {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: grid; place-items: center;
+  font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700;
+  border: 1px solid var(--border); background: #fff; color: var(--text-secondary);
+  transition: var(--transition);
+}
+.page-btn:hover { border-color: var(--border-hover); color: var(--text-primary); }
+.page-btn.active { background: var(--text-primary); color: #fff; border-color: var(--text-primary); }
+.page-btn.arrow { font-size: 16px; }
+
+/* ===== FOOTER ===== */
+.footer { margin-top: 48px; border-top: 1px solid var(--border); padding: 32px; background: #fff; }
+.footer-inner { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.footer-text { font-size: 12px; color: var(--text-muted); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { font-size: 12px; color: var(--text-secondary); transition: var(--transition); }
+.footer-links a:hover { color: var(--text-primary); }
+
+.ink-pink { background: var(--ink-pink); }
+.ink-green { background: var(--ink-green); }
+.ink-orange { background: var(--ink-orange); }
+.ink-purple { background: var(--ink-purple); }
+.ink-blue { background: var(--ink-blue); }
+.ink-pink-text { color: var(--ink-pink); }
+.ink-green-text { color: var(--ink-green); }
+.ink-orange-text { color: var(--ink-orange); }
+.ink-purple-text { color: var(--ink-purple); }
+.ink-blue-text { color: var(--ink-blue); }
+
+@media (max-width: 1024px) {
+  .content-layout { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .card-grid { grid-template-columns: 1fr; }
+  .header-nav { display: none; }
+  .cat-hero { flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="#"><img src="data:image/webp;base64,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" alt="AI Creative* Knowledge Base" style="height:26px;"></a>
+    <nav class="header-nav">
+      <a href="#">ホーム</a>
+      <a href="#" class="active">ナレッジ</a>
+      <a href="#">アーカイブ</a>
+      <a href="#">フレームワーク</a>
+      <a href="#">ニュース</a>
+      <a href="#">イベント</a>
+    </nav>
+    <div class="header-search">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
+      <input type="text" placeholder="ナレッジを検索...">
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <div class="breadcrumb">
+    <a href="#">ホーム</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="#">ナレッジ</a>
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-current">AIクリエイティブ制作</span>
+  </div>
+
+  <div class="cat-hero">
+    <div class="cat-hero-left">
+      <div class="cat-hero-icon ink-pink">🎬</div>
+      <div>
+        <div class="cat-hero-title">AIクリエイティブ制作</div>
+        <div class="cat-hero-desc">AI動画・画像・音声生成に関するナレッジ、ワークフロー、制作事例</div>
+      </div>
+    </div>
+    <div class="cat-hero-count"><strong>24</strong>articles</div>
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <button class="sub-tab active">すべて</button>
+      <button class="sub-tab">AI動画</button>
+      <button class="sub-tab">AI画像</button>
+      <button class="sub-tab">AI音声</button>
+      <button class="sub-tab">コンポジット</button>
+    </div>
+    <div class="toolbar-right">
+      <select class="sort-select">
+        <option>新しい順</option>
+        <option>人気順</option>
+        <option>古い順</option>
+      </select>
+      <div class="view-toggle">
+        <button class="view-btn active" title="グリッド">
+          <svg width="14" height="14" fill="currentColor"><rect x="0" y="0" width="6" height="6" rx="1"/><rect x="8" y="0" width="6" height="6" rx="1"/><rect x="0" y="8" width="6" height="6" rx="1"/><rect x="8" y="8" width="6" height="6" rx="1"/></svg>
+        </button>
+        <button class="view-btn" title="リスト">
+          <svg width="14" height="14" fill="currentColor"><rect x="0" y="1" width="14" height="3" rx="1"/><rect x="0" y="6" width="14" height="3" rx="1"/><rect x="0" y="11" width="14" height="3" rx="1"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-layout">
+    <div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1614729939124-032d1e6c9945?w=400&q=80')">
+            <div class="card-thumb-tag ink-pink">AI動画</div>
+          </div>
+          <div class="card-body">
+            <div class="card-cat ink-pink-text">AIクリエイティブ制作</div>
+            <div class="card-title">ComfyUI × Floyo で作る I2V スキンケア広告パイプライン</div>
+            <div class="card-tags"><span class="card-tag-sm">ComfyUI</span><span class="card-tag-sm">Floyo</span><span class="card-tag-sm">I2V</span></div>
+            <div class="card-meta"><span class="card-avatar ink-pink">M</span><span>Mash</span><span class="card-meta-dot"></span><span>2026.03.25</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&q=80')">
+            <div class="card-thumb-tag ink-pink">AI画像</div>
+          </div>
+          <div class="card-body">
+            <div class="card-cat ink-pink-text">AIクリエイティブ制作</div>
+            <div class="card-title">ANESSA LoRA検証レポート ─ AI生成 vs 実写コンポジット</div>
+            <div class="card-tags"><span class="card-tag-sm">LoRA</span><span class="card-tag-sm">商品撮影</span></div>
+            <div class="card-meta"><span class="card-avatar ink-pink">M</span><span>Mash</span><span class="card-meta-dot"></span><span>2026.02.28</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&q=80')">
+            <div class="card-thumb-tag ink-pink">AI動画</div>
+          </div>
+          <div class="card-body">
+            <div class="card-cat ink-pink-text">AIクリエイティブ制作</div>
+            <div class="card-title">WAN 2.2 + FLF2V で実現するアニメMV制作パイプライン</div>
+            <div class="card-tags"><span class="card-tag-sm">WAN 2.2</span><span class="card-tag-sm">FLF2V</span><span class="card-tag-sm">MV</span></div>
+            <div class="card-meta"><span class="card-avatar ink-pink">M</span><span>Mash</span><span class="card-meta-dot"></span><span>2026.03.15</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=400&q=80')">
+            <div class="card-thumb-tag ink-pink">AI動画</div>
+          </div>
+          <div class="card-body">
+            <div class="card-cat ink-pink-text">AIクリエイティブ制作</div>
+            <div class="card-title">カフェカップルMV ─ Floyo × WAN 2.2 実写風ワークフロー</div>
+            <div class="card-tags"><span class="card-tag-sm">Floyo</span><span class="card-tag-sm">実写風</span></div>
+            <div class="card-meta"><span class="card-avatar ink-pink">M</span><span>Mash</span><span class="card-meta-dot"></span><span>2026.02.18</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&q=80')">
+            <div class="card-thumb-tag ink-pink">AI動画</div>
+          </div>
+          <div class="card-body">
+            <div class="card-cat ink-pink-text">AIクリエイティブ制作</div>
+            <div class="card-title">スーパーヒーローバトルMV ─ FLF2Vアクション生成テスト</div>
+            <div class="card-tags"><span class="card-tag-sm">FLF2V</span><span class="card-tag-sm">アクション</span></div>
+            <div class="card-meta"><span class="card-avatar ink-pink">M</span><span>Mash</span><span class="card-meta-dot"></span><span>2026.02.10</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&q=80')">
+            <div class="card-thumb-tag ink-pink">AI画像</div>
+          </div>
+          <div class="card-body">
+            <div class="card-cat ink-pink-text">AIクリエイティブ制作</div>
+            <div class="card-title">FL_GeminiImageEditor ─ 画像編集ノードの実践ガイド</div>
+            <div class="card-tags"><span class="card-tag-sm">ComfyUI</span><span class="card-tag-sm">Gemini</span></div>
+            <div class="card-meta"><span class="card-avatar ink-green">S</span><span>シゲ</span><span class="card-meta-dot"></span><span>2026.01.28</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pagination">
+        <button class="page-btn arrow">‹</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">4</button>
+        <button class="page-btn arrow">›</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="sidebar-block">
+        <div class="sidebar-title"><div class="sidebar-dot ink-pink"></div>カテゴリ</div>
+        <div class="cat-link-list">
+          <div class="cat-link active"><div style="display:flex;align-items:center;"><div class="cat-link-dot ink-pink"></div>AIクリエイティブ制作</div><span class="cat-link-count">24</span></div>
+          <div class="cat-link"><div style="display:flex;align-items:center;"><div class="cat-link-dot ink-purple"></div>プロンプト & ワークフロー</div><span class="cat-link-count">18</span></div>
+          <div class="cat-link"><div style="display:flex;align-items:center;"><div class="cat-link-dot ink-blue"></div>AIツール・サービス</div><span class="cat-link-count">15</span></div>
+          <div class="cat-link"><div style="display:flex;align-items:center;"><div class="cat-link-dot ink-green"></div>プロセスデザイン</div><span class="cat-link-count">12</span></div>
+          <div class="cat-link"><div style="display:flex;align-items:center;"><div class="cat-link-dot ink-orange"></div>PoC・事例レポート</div><span class="cat-link-count">9</span></div>
+        </div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-title"><div class="sidebar-dot ink-green"></div>関連タグ</div>
+        <div class="tag-cloud">
+          <button class="tag-pill">ComfyUI</button><button class="tag-pill">Floyo</button>
+          <button class="tag-pill">WAN 2.2</button><button class="tag-pill">LoRA</button>
+          <button class="tag-pill">I2V</button><button class="tag-pill">FLF2V</button>
+          <button class="tag-pill">動画生成</button><button class="tag-pill">画像生成</button>
+          <button class="tag-pill">ffmpeg</button><button class="tag-pill">Gemini</button>
+        </div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-title"><div class="sidebar-dot ink-blue"></div>トップ投稿者</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;"><span class="card-avatar ink-pink" style="width:28px;height:28px;font-size:11px;">M</span><div><div style="font-size:13px;font-weight:700;">Mash</div><div style="font-size:11px;color:var(--text-muted);">16 articles</div></div></div>
+          <div style="display:flex;align-items:center;gap:10px;"><span class="card-avatar ink-green" style="width:28px;height:28px;font-size:11px;">S</span><div><div style="font-size:13px;font-weight:700;">シゲ</div><div style="font-size:11px;color:var(--text-muted);">5 articles</div></div></div>
+          <div style="display:flex;align-items:center;gap:10px;"><span class="card-avatar ink-orange" style="width:28px;height:28px;font-size:11px;">A</span><div><div style="font-size:13px;font-weight:700;">安達</div><div style="font-size:11px;color:var(--text-muted);">3 articles</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-text">© 2026 AI Creative Development · Advanced Creative Center · Dentsu Digital</div>
+    <div class="footer-links"><a href="#">利用ガイド</a><a href="#">投稿方法</a><a href="#">お問い合わせ</a></div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.sub-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});
+document.querySelectorAll('.page-btn:not(.arrow)').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
