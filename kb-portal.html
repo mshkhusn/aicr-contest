@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Creative* Knowledge Base</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-card: #ffffff;
+  --bg-surface: #f0f0f0;
+  --bg-tag: #f5f5f5;
+  --text-primary: #111111;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --border: #e0e0e0;
+  --border-hover: #cccccc;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.09);
+  /* Splatoon palette */
+  --ink-pink: #E8326C;
+  --ink-green: #5ED918;
+  --ink-orange: #F07B1A;
+  --ink-purple: #8C3FE6;
+  --ink-blue: #1AB8E8;
+  --ink-yellow: #D6E600;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 5px;
+  --header-h: 56px;
+  --max-w: 1360px;
+  --transition: 0.2s ease;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans JP', 'Outfit', sans-serif;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+.header {
+  position: sticky; top: 0; z-index: 100; height: var(--header-h);
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  max-width: var(--max-w); margin: 0 auto; padding: 0 32px; height: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header-nav { display: flex; align-items: center; gap: 4px; }
+.header-nav a {
+  padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  color: var(--text-muted); transition: var(--transition);
+}
+.header-nav a:hover { color: var(--text-primary); background: var(--bg-surface); }
+.header-nav a.active { color: var(--text-primary); font-weight: 700; }
+.header-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 7px 14px; width: 220px; transition: var(--transition);
+}
+.header-search:focus-within { border-color: #333; }
+.header-search svg { flex-shrink: 0; color: var(--text-muted); }
+.header-search input {
+  border: none; background: none; outline: none;
+  color: var(--text-primary); font-size: 13px; width: 100%; font-family: inherit;
+}
+.header-search input::placeholder { color: var(--text-muted); }
+
+.hero { max-width: var(--max-w); margin: 0 auto; padding: 24px 32px 0; }
+.hero-grid {
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr;
+  grid-template-rows: 195px 195px; gap: 8px;
+}
+.hero-card {
+  position: relative; border-radius: var(--radius); overflow: hidden;
+  cursor: pointer; transition: var(--transition);
+}
+.hero-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.hero-card:first-child { grid-row: 1 / 3; }
+.hero-card-bg {
+  position: absolute; inset: 0; background-size: cover; background-position: center;
+  transition: transform 0.4s ease;
+}
+.hero-card:hover .hero-card-bg { transform: scale(1.03); }
+.hero-card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0) 100%);
+}
+.hero-card-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 18px; }
+.hero-card-tag {
+  display: inline-block; padding: 3px 10px; border-radius: var(--radius-xs);
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.06em; margin-bottom: 6px; color: #fff;
+}
+.hero-card-title { font-weight: 700; line-height: 1.4; color: #fff; }
+.hero-card:first-child .hero-card-title { font-size: 19px; }
+.hero-card:not(:first-child) .hero-card-title { font-size: 13px; }
+.hero-card-date { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 5px; }
+
+.section { max-width: var(--max-w); margin: 0 auto; padding: 44px 32px 0; }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.section-title {
+  font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800;
+  letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px;
+}
+.section-title-accent { width: 4px; height: 20px; border-radius: 2px; background: var(--text-primary); }
+.section-link { font-size: 13px; color: var(--text-muted); font-weight: 500; transition: var(--transition); }
+.section-link:hover { color: var(--text-primary); }
+
+.cat-tabs {
+  display: flex; gap: 6px; margin-bottom: 20px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.cat-tabs::-webkit-scrollbar { display: none; }
+.cat-tab {
+  flex-shrink: 0; padding: 7px 18px; border-radius: 100px;
+  font-size: 13px; font-weight: 500;
+  border: 1px solid var(--border); color: var(--text-muted);
+  transition: var(--transition); white-space: nowrap; background: #fff;
+}
+.cat-tab:hover { border-color: var(--border-hover); color: var(--text-primary); }
+.cat-tab.active { background: var(--text-primary); color: #fff; border-color: var(--text-primary); font-weight: 700; }
+
+.card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  transition: var(--transition); cursor: pointer;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--border-hover); }
+.card-thumb {
+  width: 100%; aspect-ratio: 16/9;
+  background-size: cover; background-position: center;
+  background-color: var(--bg-surface); position: relative;
+}
+.card-thumb-tag {
+  position: absolute; top: 10px; left: 10px;
+  padding: 3px 10px; border-radius: var(--radius-xs);
+  font-size: 10px; font-weight: 800; color: #fff;
+}
+.card-body { padding: 14px 16px 16px; }
+.card-cat { font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.02em; }
+.card-title {
+  font-size: 14px; font-weight: 600; line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-meta { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 11px; color: var(--text-muted); }
+.card-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-muted); }
+.card-avatar {
+  width: 20px; height: 20px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800; color: #fff;
+}
+
+.featured-banner {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 36px 40px;
+  display: flex; align-items: center; gap: 36px;
+}
+.featured-banner-content { flex: 1; }
+.featured-banner-eyebrow {
+  font-size: 11px; font-weight: 800; text-transform: uppercase;
+  color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 8px;
+}
+.featured-banner-title { font-size: 22px; font-weight: 800; line-height: 1.4; font-family: 'Outfit','Noto Sans JP',sans-serif; }
+.featured-banner-desc { font-size: 14px; color: var(--text-secondary); margin-top: 6px; }
+.featured-banner-btn {
+  margin-top: 18px; display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 24px; border-radius: 10px;
+  background: var(--text-primary); color: #fff;
+  font-size: 13px; font-weight: 700; transition: var(--transition);
+}
+.featured-banner-btn:hover { opacity: 0.85; }
+
+.framework-visual {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 32px;
+}
+.framework-steps { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
+.framework-step { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 18px; }
+.framework-step-num {
+  width: 38px; height: 38px; border-radius: 12px;
+  display: grid; place-items: center;
+  font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 900; color: #fff;
+}
+.framework-step-label { font-size: 12px; font-weight: 700; text-align: center; white-space: nowrap; }
+.framework-arrow { color: var(--text-muted); font-size: 16px; padding: 0 4px; }
+.fw-tags { text-align: center; margin-top: 24px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.fw-tag { padding: 8px 18px; background: var(--bg-surface); border-radius: 8px; font-size: 12px; font-weight: 700; }
+
+.archive-row { display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none; }
+.archive-row::-webkit-scrollbar { display: none; }
+.archive-month {
+  flex-shrink: 0; width: 140px; background: #fff;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; text-align: center; cursor: pointer; transition: var(--transition);
+}
+.archive-month:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.archive-month-label { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 900; }
+.archive-month-year { font-size: 12px; color: var(--text-muted); }
+.archive-month-count { margin-top: 12px; font-size: 12px; color: var(--text-secondary); padding-top: 12px; border-top: 1px solid var(--border); }
+.archive-month-count strong { color: var(--text-primary); }
+
+.two-col { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+.news-list { display: flex; flex-direction: column; gap: 10px; }
+.news-item {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 14px; background: #fff;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  cursor: pointer; transition: var(--transition);
+}
+.news-item:hover { box-shadow: var(--shadow-md); }
+.news-thumb {
+  flex-shrink: 0; width: 120px; height: 72px; border-radius: var(--radius-sm);
+  background-size: cover; background-position: center; background-color: var(--bg-surface);
+}
+.news-content { flex: 1; min-width: 0; }
+.news-source { font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+.news-title { font-size: 14px; font-weight: 600; line-height: 1.5; }
+.news-summary { font-size: 12px; color: var(--text-secondary); margin-top: 3px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.news-date { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+
+.sidebar-block { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+.sidebar-block + .sidebar-block { margin-top: 14px; }
+.sidebar-title { font-size: 14px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.sidebar-dot { width: 8px; height: 8px; border-radius: 50%; }
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag-pill {
+  padding: 5px 14px; border-radius: 100px; font-size: 12px; font-weight: 500;
+  background: var(--bg-surface); color: var(--text-secondary);
+  transition: var(--transition);
+}
+.tag-pill:hover { background: var(--text-primary); color: #fff; }
+.ranking-list { display: flex; flex-direction: column; gap: 8px; }
+.ranking-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition); }
+.ranking-item:hover { background: var(--bg-surface); }
+.ranking-num { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 900; width: 28px; text-align: center; flex-shrink: 0; }
+.ranking-title { font-size: 13px; font-weight: 500; line-height: 1.5; }
+.ranking-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+.event-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.event-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  cursor: pointer; transition: var(--transition); position: relative; overflow: hidden;
+}
+.event-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.event-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.event-date-day { font-family: 'Outfit', sans-serif; font-size: 34px; font-weight: 900; line-height: 1; }
+.event-date-block { display: flex; align-items: baseline; gap: 6px; margin-bottom: 12px; }
+.event-date-info { font-size: 12px; color: var(--text-muted); }
+.event-title { font-size: 14px; font-weight: 600; line-height: 1.5; }
+.event-tag {
+  display: inline-block; margin-top: 10px; padding: 3px 10px; border-radius: var(--radius-xs);
+  font-size: 10px; font-weight: 700; background: var(--bg-surface); color: var(--text-secondary);
+}
+
+.footer { margin-top: 60px; border-top: 1px solid var(--border); padding: 32px; background: #fff; }
+.footer-inner { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.footer-text { font-size: 12px; color: var(--text-muted); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { font-size: 12px; color: var(--text-secondary); transition: var(--transition); }
+.footer-links a:hover { color: var(--text-primary); }
+
+/* Splatoon ink colors for accents only */
+.ink-pink { background: var(--ink-pink); }
+.ink-green { background: var(--ink-green); }
+.ink-orange { background: var(--ink-orange); }
+.ink-purple { background: var(--ink-purple); }
+.ink-blue { background: var(--ink-blue); }
+.ink-yellow { background: var(--ink-yellow); }
+.ink-pink-text { color: var(--ink-pink); }
+.ink-green-text { color: var(--ink-green); }
+.ink-orange-text { color: var(--ink-orange); }
+.ink-purple-text { color: var(--ink-purple); }
+.ink-blue-text { color: var(--ink-blue); }
+
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 220px 180px 180px; }
+  .hero-card:first-child { grid-column: 1 / 3; grid-row: 1; }
+  .card-grid { grid-template-columns: repeat(3, 1fr); }
+  .two-col { grid-template-columns: 1fr; }
+  .event-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .hero-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .hero-card:first-child { grid-column: 1; grid-row: 1; min-height: 240px; }
+  .card-grid { grid-template-columns: 1fr 1fr; }
+  .header-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <img src="data:image/webp;base64,UklGRuAUAABXRUJQVlA4WAoAAAAwAAAAPAIAKwAASUNDUFQCAAAAAAJUbGNtcwQwAABtbnRyUkdCIFhZWiAH6gACAAIAAAA3AChhY3NwQVBQTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLWxjbXMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAtkZXNjAAABCAAAAD5jcHJ0AAABSAAAAEx3dHB0AAABlAAAABRjaGFkAAABqAAAACxyWFlaAAAB1AAAABRiWFlaAAAB6AAAABRnWFlaAAAB/AAAABRyVFJDAAACEAAAACBnVFJDAAACEAAAACBiVFJDAAACEAAAACBjaHJtAAACMAAAACRtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACIAAAAcAHMAUgBHAEIAIABJAEUAQwA2ADEAOQA2ADYALQAyAC4AMQAAbWx1YwAAAAAAAAABAAAADGVuVVMAAAAwAAAAHABOAG8AIABjAG8AcAB5AHIAaQBnAGgAdAAsACAAdQBzAGUAIABmAHIAZQBlAGwAeVhZWiAAAAAAAAD21gABAAAAANMtc2YzMgAAAAAAAQxCAAAF3v//8yUAAAeTAAD9kP//+6H///2iAAAD3AAAwG5YWVogAAAAAAAAb6AAADj1AAADkFhZWiAAAAAAAAAknwAAD4QAALbDWFlaIAAAAAAAAGKXAAC3hwAAGNlwYXJhAAAAAAADAAAAAmZmAADypwAADVkAABPQAAAKW2Nocm0AAAAAAAMAAAAAo9cAAFR7AABMzQAAmZoAACZmAAAPXFZQOExmEgAALzzCChD/BySE/+fViAlI3MMb/v/rpWTb9vmvCZihpVOGkBYUlTRAhF0abEDCjp2dgwZrwexiULsedidht1K602AHDt3dHTPMzHo/+H//v/VfiznK7XgQ0f8J0P8TWqqd3SCO89uZFUKLXDj89S9WrPj8tcf7li7CUu43W5w7999//8B4srKyskrFVTnLX7YIqpiVlVU6qSq0a9cu65wrnhVn5n8Bo7B3pLhNwrw+pFJjd+OYv3BQpKgqhjn83AG2xnMWGBhP3zyA5eWLoNeBe5PqOmDqOdeWOGNbvpoyuHSR5q0OoHPyDDpEvD+2Kzoi/c3q/4UMKQT4IlP/MzH33+UVYa0Jnp0sxV8mzKFFRhpmt/86huN/LVX/k4FHvaLrZYfccskR+YRw7//vxoujGwR4F0cfDc/Lxj/J0/8sht5g3zFp1vfHfVxfZJU47sB9yfEEwbE/52woDKL7fy+ygPVTgcPP74BTJcKKPAMQG6oi+r+wunIt/41vbWpRNQjXH5OiN4FfXVVKUrG2PwVsSC+CvLJm8XNhDHHeEFLauwB5N+p/NEqZBXB5UbXIKDRolgQpOQFPpshOHWsxogg6l7vMOOSy+9VW4WR8AXC8o/6Ho+6+O4uo+piTrOlJcDP2ULnOt3Z6UpW2/oaSyg197ptnLS+r+7h3flz8wfQuxeLIbNZ37CsLPnsxOuA8KyUtLdPqlZaWFlGkrVlNJduarV0ubmt6VrUuI15buezjZ/uWDJBS2kwx8h9s7snRqfRCgL0XKcy05j3b1oqv+CV3ju1bN3IueTW797ywZAgZ9do0LhFOpbZ1U0Oqem2vi0onUekCYIJLpGqrG3q3qpUeV2rtjkO61UkJwavds0fTzLAmGfkVlhr70xO30lqX4tTKopZ0F/5P5Y0/Biwzas8h+Pi0Ug61nsslOH/OkFRJf8e9g4phDlfGUcx6QWXz8S+Sv8LbBOe+WTlAetFgtJxdKv4EsKGOHG/OycnpJ134zIozAKvHp7sUn/R7Pv4T81pas3NyciYGdcnJycm5JahZTk7OB3FlPvjNfoCzXw5Idyp+38IYwB/DysTT+51NQP6/r0tVozfeeKNrUPrIL/cAFM67LSNZysSAW4MueukEZv7n1xdzafpRAf4zvz9fy6nUhHmHAHI/vjE1jJRdxpcaatAnYWULrSFy/9y6yWUMfl/K8FM47+wU0O04cf50fkL0vDU8qB/mQElevwM4H+kfcAuQH4OCtuHUXAPwYyW53gvcnza1gODfqgU1/xPH2HPlfBOBtUHPALwfNA54NJ6Wa3Bc09Gh3VqC19RyKvk6wb9U7gCMCWj8C45beiRJV4CWVuYcnPe2CMicEcMx716H9ptx/LVNCNdi9lPVmPF5wnph7kiPwwt06BkLylhMvKfbGm0KiPuX4glpaX0X9J5xLFOKzCTe2A1Gw5PAXeOBHeXDuGAbwNySimvEpzgvSTO8MWfxH9nqg/3tJF0MUD1gje9QJGAhcIlb6kP5+AsMGBHQIRfXXRMcWqzDdePtDpFhufgLDPhnUkRmAqvSjPQ5+PPWbjrp43BLw5sNULDjzyM+GGqlPx7DX2DA7fF9YJwqKf3bKKiSqOnWuwrdyjlBgPcW8R+uK8lbTogdE+L9ZhSUs4odN16UFCX+vLaSUn4DnpX3EfBhCC32AbybrviOw5mXujSq3OmRUwB9jBsAVt1cz1OlHtNiwKEGkrcdGGjVwGxplc6HnZ7bowB/9m+cWq3HxL0Ag43zTwDMva91tWse2IdplN4D5M/q2fSC6584DvkOIwA2Dm6WVrnrI9sAhidBxgcAbWU+B/B0VoqkOtHTwI/GGGDv4AxJZbuvBU7XMJ4F+OmmBik1ek86DMT6xlPhrDFD0t0GoxP1vjUpUcHL1BWzYErHmpfct8vgA0kdMDdcn1WyxYB3rIdUpVWrdtaIVq1alXbSPwxusf6GeanUJGa91uX8CweuNfgpIqntWr5Lk0qtZukF8bU/BlDQQCHAhgtkXp0LzPKV2A4sLid7QAxY5knPAG9bg6xxVi/gOTk1OAs8Vkxm3c3AjlTfq8DZf3jyV5nnMgXYf4nMOivxG9VPAM+UkFk9BziSGU735nb7O5+atw84ebvsncB1Cry6AApK+jYDzWWnzwee97UshNiDaTKb7gZWe3EMw+wmqUKBsdpL0LfW3Ulw5OPxXTt38JYbea3lL7XU4FLpISO3ovzeN8bXkpRmdZPfqXyeMct6wfjDk97FvF7+9NkGN0pSxsMVJKnBsBTFde1pzD8ywzheVYHTgb2+fwI/ZSh4AMDfpE7ALs94BzblwbfWC8A1Tt584EUFV90M9JJUvwDoq8DIj0EN86HwYgWmr3d4D3jfU+B5q4Ah4cS9MEt2TWBzJEg/AJ0kVQTWKvha4CdJKT8ATyq49h7gKjfvD+NgmiTNNWiVoN+taxO3Pkv+upgPy6590pgmfWK8JnuysT0xes84muaL7DKGSen5xhuyy2w3PvGF7Pskn8C3vBBGK7gfUBCRzs8FbpDrv4GXpbSjQEOftwf+NR/yMn3eFjia7nQTsKWUgyYCcyS9CyzzgnR10OfAS3K8PugaYF8FOQ4DfkiKnzoFXF9QUBCV41vATZKuAU4VD4pMf+GFaZLuAnKKO+hp4D23SzBfkP8266UEbbZaJmxTRZndjFj5AH1s/CHVqOMvZdXeZOxMUGeDjr7L8OeVlxphtgzQFONYamL8J+4+CXBnfEeLOTQAKC8NBLanOt0BLJU0E7jf1wS4dgTQ2dcAmCGnj4CJcm0FUENlY8CVcv235R0Derh4vwa8Ajwj1/oATZMB5rc04l4ZUAPgzbSA4AXACLl2BvLLOT1vXW6UO2scy0zML1b3hL0oe6Sxpm7w4waZCi5/cZ/sb06RFCnbjad8k4zZknobx+vXDbzXoEnC9lyk/r7ci+NaJcdIPpAlTQKelHMWcNiTbgQ+9g2DvBKNgSm+YcCNbquBbk6R/UB7XQac8JyesCoD1HPRiwFLgVudtB7oGcq1TQOvvOPJj7cBxDrE51WYSIBWA6yf0CCOXUB7p2IngWYuGUeN7RFDXxj0T8x86+8Juy/gZSPESj6v7eS5e3BOlCYamz1JfxrXSBpnhNg6UWtrS3oFYEu5eBa4KNf6ELjTLQOgilT6LBxJkfQFfCtvO/zm+xrySjul5QOPjXTOAXqpP/CrnO+2LgfyUp1GWd4h4KmRzj8CQ0KpK+fiTwFsLxOU2nLAAy9+/edxTKPTScwt795TPagMwCMjnTcBV7n0w3y1lj3K+jYxs61pCWsXsDisLEn91hN3wmobNJHq4d8akfRGWFcnaHl5Scr4A+CLSBwzw1gFdHbTUaCDpDnAJVLaCRgrvQxUljJOw9dyaki4t2ki8IFbF+s2YJWc+1iVCHdU4qQ+AFONyKC5J3A31PqA4V8xsrbR2hdiX5cFVvy1E/KQ9VHCygasC6upvFdw3bUiObTAGCeNNKKS9HVYvRLzdabMhicBxsfxegheLtDIzTsJtJF0LzBWagdcJPUBbpE6A3e59QpptGYA/+l2ifUo8L5bJ+vykB5PBm0Elvpa/0xw7LcRCx1UvM/7Zyzg5wGSBoV0p0Ntwo4m5HLr6HlxzMo1WzmkB3xp7F0ZdxONJnDzG/9xWdrDSXKLsVxa7IvV8j1tHFkZd+fEDFTgAF9hh0TpANDKrRxARUnVgXnSBNgfkcrkw+vSdIhVcbvCN/mJuDvreeBdt97WcGCm2wCrqe/pJ+LunRTPAMc8qeFJ/NveHN+/VQnpUxdJpQe+vdmC26SeQN4T8V/hMCG0LZFEFM81mOzWJIZ/qxfCZONzxe/tNHJH1/ckaUKSZBzxxSpVLPTNlf9uI0fJG4deBdhXLVFLgZvdmgNHPUn6AU4X01KYIUmLYIenHFght4q+WgpxKLDCbZjVHVjmNt4qVgi0UKJDGgxQSRmrgLOj6nqy4/FXH/zJaV/sItUHKKPwI9tCo2MiNNM6U8NpJubjCmGwccCLLwuzu+xZSaJnfQwZgv9G43KDsudK5iqAJWkJehUY73Yr8KP8DwJXlS6AQb7xQMNawNg4dBDoHMY1wAHPabrVANjlNt/SeuDmcyMKnIyoE1DYWY4/hCAp466zwAil5gGtEtCJ8N9JSHOLxVUc2hZaF4ZxqUHToFrN/I000DgcCViXLBcZn3zqO1jMKG/1CqrSzIwkixqdApiaoNHAErd5wAyjCfDP7kA1Xwtg6J1Ag3iWAGOdvLHZ2dmlVBPgSpeUNVZ6IXC+S4WCgM+AJ93+kZ2dXSkZvGXA99JoYLEcK8YCHszOfsgLkh4C3pdWAfc4pT6UnT0xPWimlX2hax/rdJlE6CuLfddYKePzMX/0wihVaOSUsxqdxP+dphi7ZHeKGbucBoSjX32nTvuekr3H2JtlVdqFf6uXNBroo29iOgC0d6kZA9ob3kZY/hSskt/bA599BGsUz1PAjuIuA4DfJG838IXLTVjaCLzsMpmAR4DDZV26AlsjyXAdwBPS68A0l34ErATauHQGPpbeBNalutwPLFRguVyjoJJcvY0GdyWk5kGL2OJ/9b/qnud+xz5SV2HoVYMlHYpJarMO81bdZdDUaH4Ec4/TsyH93Wc3C3jAYG3XEpIaLcecoOTRa75j9RPizQXmpwSlvAt8KXsaFGyGaYbehONH4fG4Kh0C/sOh1G5gmKR+AK2Div0Z9CCQ3zjo8sKg0juBbIf0dcBEJS41WgDsKyM9Anzj0GBd0FPAMy7jgDHS+SeBIQ7lDwODgu7H/Eruj1krEqIuMSvewi4Kp/opA059M+Mn7AUpusza+6+rWt78cQz7oC+SZ3Bg2dctQjgvN+gHBWbuNODswreWFWCuLplMmX8C/J6ZCF1wFvimrJXyBkDzgCswu1g3YbaOS4OAvHs9q/4SYHNZSd5C4FRPq8oygsoeAo70MCIDzxCknkDBmIhVcw6wt2o4zUsF1+7xwA/4h0jqChT2COh1HH9/ST2Aw+2DGu8E2ksaBpwaGND0JyAnM+hn6+Y4Wlg0SogG5IUyViGpS57luruyVHyDEZxv5KZJUo4FdAhBs4LuDlLzw5brqcZKJjU+BfCGlwg9DrDu3ovTIo3vmgPwjgJTD/hyM63yhb49kfi8+QAf92uWXqNL9hngdHP5mxQAsRdubVqy7YgdsCZAV50FWPBEv7se3wT8HKT3AObc2qJY1U4PHgfy2yucMB/xJJXaCpyZckFq1b6TlwCrgE/q1PK8z4HYMy3LSF797CPADE9SykqAmTc1TqvV9cmzwNH6CmyBeTwzDm+dNTkxarMvviP/8EJTl23xrKknSS1ynb7tbNDKNz4x1wScLuOgln/Es/cyJZcG+rgjIZmvYuaexPwmI0hv+OYrcIXvRcWn6t/hfvYG2Tccw3VLkyBdvQHHvJvHAKONCl/gXninkmT/EJmt8vEX4D/QtQmmpyqHMPdvOoM/p6T8WStwP3Otgp+23lC8/7T2pCZG5bKPu+VOLqfAMFR85BGX/JfKyuyzJ6jwkZSM08bW2pLSnz6TiMhW6y05pwze6fRBTSWb3vDlXpwIqfsen503uZgce/tGB0V9fwtDkXtOuPzeQsF1fnRYWLuCg4o/khtw6ApNBG435A047LK+jZIi9vP4kgq8cb/P/K6atDhAjecYduztmrJTRpxx+b6hHIdGzWZxZUXtauoYNRuHI5W/76Mj1rb502rJsWXUTHGSzpvw1aYY5P4288E6Ci7xYE4usGtqY0lDomaW/FUfeunDhT8tnX+hUqNmGwd1j5pN3KTMEZ+sLYD81R9MbKEEPxyNRpvHVeLhaDQaHahLo9FoL6eHotFoOUvlJ3+73/jtydpyzoxGo9GsoHrRaDRaLKhXNBq91JJqPbP0uO/ErF7pck0fO/cIULhgUESZ0Wi0syVV7jZuxoLZT/fMkKYAPSypyrSFR3ynP7ohQ2HWjLo/MmxAl/PkXHb6lhhwYkbPFEklnss5ufsrT5L+tvSgtffjZnKt/8KKk76jb3dNVdGacn7LLn0uzFSyZjSvn6K4U2o3KKGiM71xk3QV8ZU7XtnkPJ3LkTodmpTzFL9X/6qGpZTQd4DLgiR5tTo0K+/pnM1s3ryCp1BLNunWpUGG4o/U69CojKf/u90GVHH6i+OkBQsW3ORSF1iuv06OBLalB3mfAkP/QnEBQHaqVeIV4GDFv1BoNsDaUddddt1jcw4Bsc76K2XaB7ifuUt/rUwbu8VlUUP95TKl67Of/bJv4/JPhtfWX80B" alt="AI Creative* Knowledge Base" style="height:26px;">
+    <nav class="header-nav">
+      <a href="#" class="active">ホーム</a>
+      <a href="#knowledge">ナレッジ</a>
+      <a href="#archive">アーカイブ</a>
+      <a href="#framework">フレームワーク</a>
+      <a href="#news">ニュース</a>
+      <a href="#events">イベント</a>
+    </nav>
+    <div class="header-search">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
+      <input type="text" placeholder="ナレッジを検索...">
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-card">
+      <div class="hero-card-bg" style="background-image:url('https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80')"></div>
+      <div class="hero-card-overlay"></div>
+      <div class="hero-card-content">
+        <div class="hero-card-tag ink-green">プロセスデザイン</div>
+        <div class="hero-card-title">AIクリエイティブ・プロセスデザインフレーム<br>─ 属人的なAI活用を、再現可能な型に変える</div>
+        <div class="hero-card-date">2026.03.19 · AIプロセス開発G</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-bg" style="background-image:url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&q=80')"></div>
+      <div class="hero-card-overlay"></div>
+      <div class="hero-card-content">
+        <div class="hero-card-tag ink-pink">AI動画生成</div>
+        <div class="hero-card-title">WAN 2.2 + FLF2V で実現するアニメMV制作パイプライン</div>
+        <div class="hero-card-date">2026.03.15</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-bg" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80')"></div>
+      <div class="hero-card-overlay"></div>
+      <div class="hero-card-content">
+        <div class="hero-card-tag ink-purple">プロンプト</div>
+        <div class="hero-card-title">今週の最強プロンプト TOP10</div>
+        <div class="hero-card-date">2026.03.28 · 週刊連載</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-bg" style="background-image:url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&q=80')"></div>
+      <div class="hero-card-overlay"></div>
+      <div class="hero-card-content">
+        <div class="hero-card-tag ink-blue">AIツール</div>
+        <div class="hero-card-title">AI動画生成の最新トレンド：Google, NVIDIA, Alibaba</div>
+        <div class="hero-card-date">2026.03.22</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-bg" style="background-image:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80')"></div>
+      <div class="hero-card-overlay"></div>
+      <div class="hero-card-content">
+        <div class="hero-card-tag ink-orange">PoC事例</div>
+        <div class="hero-card-title">BD4案件8件のフレーム適用結果レポート</div>
+        <div class="hero-card-date">2026.03.10</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="knowledge">
+  <div class="section-header">
+    <div class="section-title"><div class="section-title-accent"></div>ナレッジ</div>
+    <a href="#" class="section-link">すべて見る →</a>
+  </div>
+  <div class="cat-tabs">
+    <button class="cat-tab active">すべて</button>
+    <button class="cat-tab">🎬 AIクリエイティブ制作</button>
+    <button class="cat-tab">💡 プロンプト & ワークフロー</button>
+    <button class="cat-tab">🔧 AIツール・サービス</button>
+    <button class="cat-tab">📐 プロセスデザイン</button>
+    <button class="cat-tab">📊 PoC・事例レポート</button>
+    <button class="cat-tab">📰 AIニュース・トレンド</button>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1614729939124-032d1e6c9945?w=400&q=80')">
+        <div class="card-thumb-tag ink-pink">AI動画</div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat ink-pink-text">AIクリエイティブ制作</div>
+        <div class="card-title">ComfyUI × Floyo で作る I2V スキンケア広告パイプライン</div>
+        <div class="card-meta"><span class="card-avatar ink-pink">M</span><span>Mash</span><span class="card-meta-dot"></span><span>2026.03.25</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&q=80')">
+        <div class="card-thumb-tag ink-green">プロセス</div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat ink-green-text">プロセスデザイン</div>
+        <div class="card-title">業務棚卸シートの使い方ガイド ─ ヒアリングから可視化まで</div>
+        <div class="card-meta"><span class="card-avatar ink-green">F</span><span>福田</span><span class="card-meta-dot"></span><span>2026.03.20</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&q=80')">
+        <div class="card-thumb-tag ink-purple">プロンプト</div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat ink-purple-text">プロンプト & ワークフロー</div>
+        <div class="card-title">YAML設計指示書で「ふわっと」した指示をなくす方法</div>
+        <div class="card-meta"><span class="card-avatar ink-orange">A</span><span>安達</span><span class="card-meta-dot"></span><span>2026.03.18</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&q=80')">
+        <div class="card-thumb-tag ink-blue">ツール</div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat ink-blue-text">AIツール・サービス</div>
+        <div class="card-title">国内AIエージェント動向 2026.03 ── MoriBooks, Dify, n8n</div>
+        <div class="card-meta"><span class="card-avatar ink-blue">O</span><span>大橋</span><span class="card-meta-dot"></span><span>2026.03.14</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&q=80')">
+        <div class="card-thumb-tag ink-orange">事例</div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat ink-orange-text">PoC・事例レポート</div>
+        <div class="card-title">BD4案件 ボトルネック分析結果 ─ 制作以外の課題が見えた</div>
+        <div class="card-meta"><span class="card-avatar ink-pink">M</span><span>Mash</span><span class="card-meta-dot"></span><span>2026.03.10</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&q=80')">
+        <div class="card-thumb-tag ink-pink">AI画像</div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat ink-pink-text">AIクリエイティブ制作</div>
+        <div class="card-title">ANESSA LoRA検証レポート ─ AI生成 vs 実写コンポジット</div>
+        <div class="card-meta"><span class="card-avatar ink-pink">M</span><span>Mash</span><span class="card-meta-dot"></span><span>2026.02.28</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1516110833967-0b5716ca1387?w=400&q=80')">
+        <div class="card-thumb-tag ink-green">フレーム</div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat ink-green-text">プロセスデザイン</div>
+        <div class="card-title">ボトルネックマップ自動生成 ─ Difyで診断フローをAI化</div>
+        <div class="card-meta"><span class="card-avatar ink-purple">S</span><span>シゲ</span><span class="card-meta-dot"></span><span>2026.02.25</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-thumb" style="background-image:url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=400&q=80')">
+        <div class="card-thumb-tag ink-orange">トレンド</div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat ink-orange-text">AIニュース・トレンド</div>
+        <div class="card-title">Project Genie ── Google の 3D世界生成が示す次のフロンティア</div>
+        <div class="card-meta"><span class="card-avatar ink-blue">T</span><span>とも</span><span class="card-meta-dot"></span><span>2026.02.20</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="featured-banner">
+    <div class="featured-banner-content">
+      <div class="featured-banner-eyebrow">📘 Framework Guide</div>
+      <div class="featured-banner-title">AIクリエイティブ・プロセスデザインフレーム</div>
+      <div class="featured-banner-desc">属人的なAI活用を、再現可能なプロセスへ設計する。<br>診断基盤・適用判断基盤・AIコンサルの型 ─ 3層の基盤で現場を変える。</div>
+      <button class="featured-banner-btn">フレームワーク詳細を見る →</button>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="framework">
+  <div class="section-header">
+    <div class="section-title"><div class="section-title-accent"></div>プロセスデザインフレーム</div>
+  </div>
+  <div class="framework-visual">
+    <div class="framework-steps">
+      <div class="framework-step"><div class="framework-step-num ink-pink">01</div><div class="framework-step-label">現場<br>ヒアリング</div></div>
+      <div class="framework-arrow">▶</div>
+      <div class="framework-step"><div class="framework-step-num ink-orange">02</div><div class="framework-step-label">業務<br>棚卸</div></div>
+      <div class="framework-arrow">▶</div>
+      <div class="framework-step"><div class="framework-step-num ink-blue">03</div><div class="framework-step-label">フロー<br>可視化</div></div>
+      <div class="framework-arrow">▶</div>
+      <div class="framework-step"><div class="framework-step-num ink-purple">04</div><div class="framework-step-label">ボトルネック<br>特定</div></div>
+      <div class="framework-arrow">▶</div>
+      <div class="framework-step"><div class="framework-step-num ink-green">05</div><div class="framework-step-label">AI適用余地<br>整理</div></div>
+      <div class="framework-arrow">▶</div>
+      <div class="framework-step"><div class="framework-step-num" style="background:var(--ink-yellow);color:#111;">06</div><div class="framework-step-label">改善<br>設計</div></div>
+    </div>
+    <div class="fw-tags">
+      <div class="fw-tag"><span class="ink-pink-text">非属人化</span> ─ 標準化・再現可能か？</div>
+      <div class="fw-tag"><span class="ink-blue-text">構造化</span> ─ I/O/Ruleで整理できるか？</div>
+      <div class="fw-tag"><span class="ink-green-text">水平思考</span> ─ 外部事例から余地発見</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="archive">
+  <div class="section-header">
+    <div class="section-title"><div class="section-title-accent"></div>アーカイブ</div>
+    <a href="#" class="section-link">年度一覧 →</a>
+  </div>
+  <div class="archive-row">
+    <div class="archive-month"><div class="archive-month-label ink-pink-text">MAR</div><div class="archive-month-year">2026</div><div class="archive-month-count"><strong>12</strong> articles</div></div>
+    <div class="archive-month"><div class="archive-month-label ink-orange-text">FEB</div><div class="archive-month-year">2026</div><div class="archive-month-count"><strong>9</strong> articles</div></div>
+    <div class="archive-month"><div class="archive-month-label ink-blue-text">JAN</div><div class="archive-month-year">2026</div><div class="archive-month-count"><strong>7</strong> articles</div></div>
+    <div class="archive-month"><div class="archive-month-label ink-purple-text">DEC</div><div class="archive-month-year">2025</div><div class="archive-month-count"><strong>5</strong> articles</div></div>
+    <div class="archive-month"><div class="archive-month-label ink-green-text">NOV</div><div class="archive-month-year">2025</div><div class="archive-month-count"><strong>8</strong> articles</div></div>
+    <div class="archive-month"><div class="archive-month-label ink-orange-text">OCT</div><div class="archive-month-year">2025</div><div class="archive-month-count"><strong>4</strong> articles</div></div>
+    <div class="archive-month"><div class="archive-month-label ink-pink-text">SEP</div><div class="archive-month-year">2025</div><div class="archive-month-count"><strong>6</strong> articles</div></div>
+    <div class="archive-month"><div class="archive-month-label ink-blue-text">AUG</div><div class="archive-month-year">2025</div><div class="archive-month-count"><strong>3</strong> articles</div></div>
+  </div>
+</section>
+
+<section class="section" id="news">
+  <div class="section-header">
+    <div class="section-title"><div class="section-title-accent"></div>ニュース & トレンド</div>
+    <a href="#" class="section-link">すべて見る →</a>
+  </div>
+  <div class="two-col">
+    <div class="news-list">
+      <div class="news-item">
+        <div class="news-thumb" style="background-image:url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=300&q=80')"></div>
+        <div class="news-content">
+          <div class="news-source ink-pink-text">OpenAI / The Verge</div>
+          <div class="news-title">人間が参加できないSNS？ AIエージェント専用「MoriBooks」が急成長</div>
+          <div class="news-summary">AIエージェントが独自のソーシャルネットワークを形成する未来について、サム・アルトマン氏が言及。</div>
+          <div class="news-date">2026.03.28</div>
+        </div>
+      </div>
+      <div class="news-item">
+        <div class="news-thumb" style="background-image:url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=300&q=80')"></div>
+        <div class="news-content">
+          <div class="news-source ink-blue-text">Google DeepMind</div>
+          <div class="news-title">Project Genie ── 3D世界を生成・探索できる「Genie 3」提供開始</div>
+          <div class="news-summary">テキストプロンプトから没入型3D環境をリアルタイム生成する技術が一般公開。</div>
+          <div class="news-date">2026.03.24</div>
+        </div>
+      </div>
+      <div class="news-item">
+        <div class="news-thumb" style="background-image:url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=300&q=80')"></div>
+        <div class="news-content">
+          <div class="news-source ink-orange-text">日経クロステック</div>
+          <div class="news-title">業務の煩悩を蔵う AI活用108選 ── 効率化の現場レポート</div>
+          <div class="news-summary">AI導入が進む国内企業の現場を取材し、成功と失敗の108パターンを分析。</div>
+          <div class="news-date">2026.03.20</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="sidebar-block">
+        <div class="sidebar-title"><div class="sidebar-dot ink-pink"></div>タグ</div>
+        <div class="tag-cloud">
+          <button class="tag-pill">ComfyUI</button><button class="tag-pill">Floyo</button>
+          <button class="tag-pill">WAN 2.2</button><button class="tag-pill">Dify</button>
+          <button class="tag-pill">プロンプト設計</button><button class="tag-pill">業務棚卸</button>
+          <button class="tag-pill">LoRA</button><button class="tag-pill">エージェント</button>
+          <button class="tag-pill">I2V</button><button class="tag-pill">n8n</button>
+          <button class="tag-pill">動画生成</button><button class="tag-pill">診断フレーム</button>
+        </div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-title"><div class="sidebar-dot ink-green"></div>人気ナレッジ TOP5</div>
+        <div class="ranking-list">
+          <div class="ranking-item"><div class="ranking-num ink-pink-text">1</div><div><div class="ranking-title">YAML設計指示書で「ふわっと」した指示をなくす方法</div><div class="ranking-meta">324 views</div></div></div>
+          <div class="ranking-item"><div class="ranking-num ink-orange-text">2</div><div><div class="ranking-title">ComfyUI × Floyo I2V パイプライン構築ガイド</div><div class="ranking-meta">287 views</div></div></div>
+          <div class="ranking-item"><div class="ranking-num ink-blue-text">3</div><div><div class="ranking-title">業務棚卸シート テンプレート & 記入例</div><div class="ranking-meta">256 views</div></div></div>
+          <div class="ranking-item"><div class="ranking-num ink-purple-text">4</div><div><div class="ranking-title">AI活用108選 ── 社内で使えるプロンプト集</div><div class="ranking-meta">231 views</div></div></div>
+          <div class="ranking-item"><div class="ranking-num ink-green-text">5</div><div><div class="ranking-title">BD4案件 ボトルネック分析レポート</div><div class="ranking-meta">198 views</div></div></div>
+        </div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-title"><div class="sidebar-dot ink-blue"></div>コントリビューター</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;"><span class="card-avatar ink-pink" style="width:28px;height:28px;font-size:11px;">M</span><div><div style="font-size:13px;font-weight:700;">Mash</div><div style="font-size:11px;color:var(--text-muted);">12 articles</div></div></div>
+          <div style="display:flex;align-items:center;gap:10px;"><span class="card-avatar ink-green" style="width:28px;height:28px;font-size:11px;">F</span><div><div style="font-size:13px;font-weight:700;">福田</div><div style="font-size:11px;color:var(--text-muted);">8 articles</div></div></div>
+          <div style="display:flex;align-items:center;gap:10px;"><span class="card-avatar ink-orange" style="width:28px;height:28px;font-size:11px;">A</span><div><div style="font-size:13px;font-weight:700;">安達</div><div style="font-size:11px;color:var(--text-muted);">6 articles</div></div></div>
+          <div style="display:flex;align-items:center;gap:10px;"><span class="card-avatar ink-blue" style="width:28px;height:28px;font-size:11px;">O</span><div><div style="font-size:13px;font-weight:700;">大橋</div><div style="font-size:11px;color:var(--text-muted);">5 articles</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="events">
+  <div class="section-header">
+    <div class="section-title"><div class="section-title-accent"></div>イベント</div>
+    <a href="#" class="section-link">すべて表示 →</a>
+  </div>
+  <div class="event-grid">
+    <div class="event-card"><div style="height:4px;background:var(--ink-pink);border-radius:2px;margin-bottom:16px;"></div><div class="event-date-block"><div class="event-date-day">04</div><div class="event-date-info">APR<br>2026</div></div><div class="event-title">ACRC AI ナレッジ共有会 #05</div><div class="event-tag">社内勉強会</div></div>
+    <div class="event-card"><div style="height:4px;background:var(--ink-green);border-radius:2px;margin-bottom:16px;"></div><div class="event-date-block"><div class="event-date-day">11</div><div class="event-date-info">APR<br>2026</div></div><div class="event-title">ComfyUI / Floyo ハンズオンWS</div><div class="event-tag">ワークショップ</div></div>
+    <div class="event-card"><div style="height:4px;background:var(--ink-blue);border-radius:2px;margin-bottom:16px;"></div><div class="event-date-block"><div class="event-date-day">18</div><div class="event-date-info">APR<br>2026</div></div><div class="event-title">AIプロセスデザイン フレーム説明会</div><div class="event-tag">フレームワーク</div></div>
+    <div class="event-card"><div style="height:4px;background:var(--ink-orange);border-radius:2px;margin-bottom:16px;"></div><div class="event-date-block"><div class="event-date-day">25</div><div class="event-date-info">APR<br>2026</div></div><div class="event-title">BD4 PoC成果発表・事例共有セッション</div><div class="event-tag">成果発表</div></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-text">© 2026 AI Creative Development · Advanced Creative Center · Dentsu Digital</div>
+    <div class="footer-links"><a href="#">利用ガイド</a><a href="#">投稿方法</a><a href="#">お問い合わせ</a></div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.cat-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
