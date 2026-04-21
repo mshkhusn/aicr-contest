@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>午後の紅茶 おいしい無糖 香るレモン | キリン</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold: #C8A84E;
+  --gold-light: #E8D48B;
+  --yellow: #F5C518;
+  --yellow-light: #FFF8E1;
+  --yellow-pale: #FFFDF5;
+  --cream: #FDF6E3;
+  --cream-dark: #F5E6C8;
+  --green-leaf: #5A8C3C;
+  --green-dark: #3D6B2E;
+  --brown: #8B6914;
+  --brown-dark: #5C4A0E;
+  --text: #3C3226;
+  --text-light: #6B5E4F;
+  --white: #FFFFFF;
+  --bg-warm: #FEFCF7;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--text);
+  background: var(--bg-warm);
+  overflow-x: hidden;
+  line-height: 1.8;
+}
+
+/* ===== HEADER ===== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.logo-text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.3s;
+}
+
+.nav a:hover::after { width: 100%; }
+.nav a:hover { color: var(--gold); }
+
+.nav-buy {
+  background: var(--yellow) !important;
+  color: var(--text) !important;
+  padding: 8px 20px;
+  border-radius: 24px;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.3s, box-shadow 0.3s !important;
+}
+
+.nav-buy:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 197, 24, 0.4);
+}
+
+.nav-buy::after { display: none !important; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 70px;
+  background: linear-gradient(135deg, #fefcf7 0%, #fff9e8 30%, #fdf3d0 60%, #fef8e0 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at 80% 50%, rgba(245, 197, 24, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(90, 140, 60, 0.06) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+/* Water ripple effect at bottom of hero */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to top, rgba(200, 220, 240, 0.15), transparent);
+  pointer-events: none;
+}
+
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-text h1 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.hero-text p {
+  font-size: 15px;
+  line-height: 2;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.hero-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-bottle {
+  position: relative;
+  z-index: 2;
+}
+
+.bottle-container {
+  width: 240px;
+  height: 480px;
+  background: linear-gradient(180deg, #f5f0e0 0%, #e8d8a8 30%, #d4b868 60%, #c8a84e 100%);
+  border-radius: 12px 12px 8px 8px;
+  position: relative;
+  box-shadow:
+    0 20px 60px rgba(200, 168, 78, 0.3),
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    inset 0 0 40px rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+}
+
+.bottle-cap {
+  width: 60px;
+  height: 30px;
+  background: linear-gradient(180deg, #f5f0e0, #e8e0c8);
+  border-radius: 6px 6px 0 0;
+  margin: 0 auto -4px;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+}
+
+.bottle-label {
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  right: 20px;
+  bottom: 80px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.bottle-label .brand {
+  font-size: 10px;
+  color: var(--text-light);
+  letter-spacing: 0.1em;
+}
+
+.bottle-label .product-name {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.bottle-label .sub {
+  font-size: 11px;
+  color: var(--text-light);
+  font-style: italic;
+  font-family: serif;
+}
+
+.new-badge {
+  position: absolute;
+  top: 20px;
+  right: -60px;
+  font-family: serif;
+  font-style: italic;
+  font-size: 28px;
+  color: var(--brown);
+  transform: rotate(-8deg);
+  z-index: 5;
+}
+
+.polyphenol-badge {
+  position: absolute;
+  bottom: 60px;
+  right: -70px;
+  width: 120px;
+  height: 120px;
+  background: var(--yellow);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  z-index: 5;
+  box-shadow: 0 4px 16px rgba(245, 197, 24, 0.3);
+}
+
+.polyphenol-badge span {
+  font-size: 11px;
+  font-weight: 400;
+}
+
+/* Decorative leaves */
+.leaf {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  background: var(--green-leaf);
+  border-radius: 0 50% 50% 0;
+  opacity: 0.7;
+  z-index: 0;
+}
+
+.leaf-1 { top: 10%; right: 5%; transform: rotate(-30deg); }
+.leaf-2 { top: 25%; left: 10%; transform: rotate(20deg); width: 40px; height: 20px; }
+.leaf-3 { bottom: 30%; right: 15%; transform: rotate(-60deg); width: 50px; height: 25px; }
+.leaf-4 { top: 5%; left: 40%; transform: rotate(45deg); width: 35px; height: 18px; }
+
+/* Lemon decorations */
+.lemon-deco {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #fff3b0, #f5d54a, #e8c020);
+  z-index: 0;
+}
+
+.lemon-1 { width: 180px; height: 180px; bottom: 10%; left: -5%; opacity: 0.6; }
+.lemon-2 { width: 80px; height: 80px; top: 15%; right: 0%; opacity: 0.5; }
+.lemon-3 { width: 120px; height: 60px; bottom: 5%; right: 10%; opacity: 0.4; border-radius: 50%; }
+
+/* Splash / water droplets */
+.water-drops {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(200, 225, 240, 0.2), transparent);
+}
+
+/* ===== SECTION COMMON ===== */
+.section-title {
+  text-align: center;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.section-title::after {
+  content: '🌿';
+  font-size: 18px;
+  margin-left: 8px;
+  display: inline-block;
+  transform: rotate(-15deg);
+}
+
+section {
+  padding: 80px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===== FEATURES ===== */
+.features {
+  background: var(--white);
+  max-width: 100%;
+  padding: 80px 40px;
+}
+
+.features-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 24px;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover { transform: translateY(-4px); }
+
+.feature-icon {
+  width: 160px;
+  height: 120px;
+  margin: 0 auto 20px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-icon-1 {
+  background: linear-gradient(135deg, #fef3d0, #f5e0a0);
+}
+
+.feature-icon-2 {
+  background: linear-gradient(135deg, #fff8e8, #f5e8c0);
+}
+
+.feature-icon-3 {
+  background: linear-gradient(135deg, #e8f5e0, #d0eac0);
+}
+
+.feature-icon svg {
+  width: 60px;
+  height: 60px;
+}
+
+.feature-card h3 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+
+.feature-card p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--text-light);
+}
+
+/* ===== KODAWARI ===== */
+.kodawari {
+  background: linear-gradient(180deg, var(--cream) 0%, var(--yellow-pale) 100%);
+  max-width: 100%;
+  padding: 80px 40px;
+}
+
+.kodawari-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.kodawari-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.kodawari-item {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 28px 32px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  backdrop-filter: blur(4px);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.kodawari-item:hover {
+  transform: translateX(8px);
+  box-shadow: 0 8px 32px rgba(200, 168, 78, 0.12);
+}
+
+.kodawari-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+}
+
+.kodawari-content h3 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.kodawari-content p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--text-light);
+}
+
+/* ===== ENJOY ===== */
+.enjoy {
+  background: var(--white);
+  max-width: 100%;
+  padding: 80px 40px;
+}
+
+.enjoy-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.enjoy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.enjoy-card {
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.enjoy-card:hover { transform: scale(1.02); }
+
+.enjoy-card-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.enjoy-card-visual {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.enjoy-card-visual.scene-1 {
+  background: linear-gradient(135deg, #f5efe0 0%, #e8dcc0 50%, #d4c8a0 100%);
+}
+
+.enjoy-card-visual.scene-2 {
+  background: linear-gradient(135deg, #e8f0e0 0%, #d0e0c0 50%, #b8d0a0 100%);
+}
+
+.enjoy-card-visual.scene-3 {
+  background: linear-gradient(135deg, #e0f0f5 0%, #c8e4e8 50%, #a0d0d8 100%);
+}
+
+.enjoy-card-inner {
+  padding: 24px;
+  text-align: center;
+}
+
+.enjoy-card-inner svg {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 8px;
+  opacity: 0.6;
+}
+
+.enjoy-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* ===== CLOSING CTA ===== */
+.closing {
+  background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 50%, #f0dca0 100%);
+  max-width: 100%;
+  padding: 80px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.closing::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 80% 30%, rgba(245, 197, 24, 0.15), transparent 50%),
+    radial-gradient(circle at 20% 70%, rgba(90, 140, 60, 0.08), transparent 40%);
+  pointer-events: none;
+}
+
+.closing-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.closing h2 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.closing .product-sub {
+  font-size: 15px;
+  color: var(--text-light);
+  margin-bottom: 48px;
+}
+
+.closing-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 14px;
+  padding: 12px 28px;
+  border: 1px solid var(--gold-light);
+  border-radius: 30px;
+  background: rgba(255,255,255,0.6);
+  transition: all 0.3s;
+}
+
+.brand-link:hover {
+  background: rgba(255,255,255,0.9);
+  border-color: var(--gold);
+}
+
+.brand-link .brand-logo-small {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.buy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  padding: 18px 60px;
+  background: var(--yellow);
+  border-radius: 50px;
+  border: 3px solid var(--gold);
+  letter-spacing: 0.08em;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(245, 197, 24, 0.3);
+}
+
+.buy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(245, 197, 24, 0.4);
+}
+
+.buy-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--white);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-light);
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.footer a {
+  color: var(--text-light);
+  text-decoration: none;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero-text h1 {
+  animation: fadeInUp 0.8s ease both;
+}
+
+.hero-text p {
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.hero-visual {
+  animation: fadeIn 1s ease 0.4s both;
+}
+
+.bottle-container {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Scroll animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== FLOATING DECORATIVE ELEMENTS ===== */
+.bg-decoration {
+  position: fixed;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bg-circle-1 {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 197, 24, 0.06), transparent 70%);
+  top: 20%;
+  right: -100px;
+}
+
+.bg-circle-2 {
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(90, 140, 60, 0.04), transparent 70%);
+  bottom: 30%;
+  left: -150px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .header-inner { padding: 10px 16px; }
+  .nav { gap: 12px; }
+  .nav a:not(.nav-buy) { display: none; }
+  .hero-inner {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  .hero-text h1 { font-size: 32px; }
+  .hero-visual { order: -1; }
+  .bottle-container { width: 180px; height: 360px; }
+  .new-badge { right: -20px; font-size: 22px; }
+  .polyphenol-badge { right: -20px; width: 90px; height: 90px; font-size: 11px; bottom: 40px; }
+  section { padding: 60px 20px; }
+  .features, .kodawari, .enjoy, .closing { padding: 60px 20px; }
+  .features-grid { grid-template-columns: 1fr; gap: 32px; }
+  .enjoy-grid { grid-template-columns: 1fr; }
+  .section-title { font-size: 26px; }
+  .closing h2 { font-size: 24px; }
+  .footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Background decoration -->
+<div class="bg-decoration bg-circle-1"></div>
+<div class="bg-decoration bg-circle-2"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+          <path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke="white" stroke-width="1.5"/>
+          <circle cx="12" cy="14" r="2" fill="white"/>
+        </svg>
+      </div>
+      <span class="logo-text">午後の紅茶</span>
+    </a>
+    <nav class="nav">
+      <a href="#top">TOP</a>
+      <a href="#features">特長</a>
+      <a href="#kodawari">こだわり</a>
+      <a href="#enjoy">楽しみ方</a>
+      <a href="#">CM・動画</a>
+      <a href="#buy" class="nav-buy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/>
+        </svg>
+        購入する
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1>香り立つ、<br>すっきりおいしい<br>無糖レモン。</h1>
+      <p>紅茶の豊かな香りと、レモンの爽やかさ。</p>
+      <p>甘くないのに、心地いい。</p>
+      <p style="font-size: 13px; color: #999; margin-top: 16px;">午後の紅茶 おいしい無糖 香るレモン。</p>
+    </div>
+    <div class="hero-visual">
+      <!-- Decorative elements -->
+      <div class="lemon-deco lemon-1"></div>
+      <div class="lemon-deco lemon-2"></div>
+      <div class="leaf leaf-1"></div>
+      <div class="leaf leaf-2"></div>
+      <div class="leaf leaf-3"></div>
+      <div class="leaf leaf-4"></div>
+
+      <div class="hero-bottle">
+        <div class="bottle-cap"></div>
+        <div class="bottle-container">
+          <div class="bottle-label">
+            <span class="brand">KIRIN</span>
+            <span class="product-name">午後の紅茶<br>おいしい<br>無糖<br>香るレモン</span>
+            <span class="sub">Lemon Tea</span>
+          </div>
+        </div>
+        <div class="new-badge">New!</div>
+        <div class="polyphenol-badge">
+          紅茶<br>ポリフェノール<br><span>入り</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="water-drops"></div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-inner">
+    <h2 class="section-title reveal">特長</h2>
+    <div class="features-grid">
+      <div class="feature-card reveal" style="transition-delay: 0.1s;">
+        <div class="feature-icon feature-icon-1">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="20" width="20" height="40" rx="4" fill="#c8a84e" opacity="0.6"/>
+            <circle cx="50" cy="35" r="16" fill="#f5d54a" opacity="0.7"/>
+            <path d="M48 20c4-3 10-3 12 1s-1 9-5 10" stroke="#5a8c3c" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <h3>香り立つレモン</h3>
+        <p>紅茶の豊かな香りに、<br>レモンの爽やかな香りが<br>ふわっと広がります。</p>
+      </div>
+      <div class="feature-card reveal" style="transition-delay: 0.2s;">
+        <div class="feature-icon feature-icon-2">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="40" cy="50" rx="24" ry="10" fill="#e8d8a8" opacity="0.5"/>
+            <path d="M22 35c0-10 8-18 18-18s18 8 18 18v8c0 4-8 7-18 7s-18-3-18-7v-8z" fill="#d4a84e" opacity="0.4"/>
+            <path d="M22 35c0-10 8-18 18-18s18 8 18 18" stroke="#c8a84e" stroke-width="2"/>
+            <path d="M30 30c2-2 6-2 8 0" stroke="#8B6914" stroke-width="1.5" opacity="0.3"/>
+          </svg>
+        </div>
+        <h3>おいしい無糖</h3>
+        <p>甘くないのに、紅茶とレモンの<br>おいしさをしっかり感じられる、<br>すっきりとした後味。</p>
+      </div>
+      <div class="feature-card reveal" style="transition-delay: 0.3s;">
+        <div class="feature-icon feature-icon-3">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M40 20c-12 0-20 8-20 18 0 14 20 28 20 28s20-14 20-28c0-10-8-18-20-18z" fill="#5a8c3c" opacity="0.3"/>
+            <path d="M35 30c8-4 16 0 18 8s-2 16-10 18" stroke="#3d6b2e" stroke-width="2" fill="none"/>
+            <circle cx="40" cy="40" r="4" fill="#5a8c3c" opacity="0.5"/>
+          </svg>
+        </div>
+        <h3>紅茶ポリフェノール入り</h3>
+        <p>嬉しい紅茶ポリフェノール入り。<br>日常のリフレッシュに<br>ぴったりです。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KODAWARI -->
+<section class="kodawari" id="kodawari">
+  <div class="kodawari-inner">
+    <h2 class="section-title reveal">こだわり</h2>
+    <div class="kodawari-list">
+      <div class="kodawari-item reveal" style="transition-delay: 0.1s;">
+        <div class="kodawari-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+            <line x1="9" y1="9" x2="9.01" y2="9"/>
+            <line x1="15" y1="9" x2="15.01" y2="9"/>
+          </svg>
+        </div>
+        <div class="kodawari-content">
+          <h3>ダージリン茶葉使用</h3>
+          <p>華やかな香りが特長のダージリン茶葉を使用し、レモンの香りを引き立てています。</p>
+        </div>
+      </div>
+      <div class="kodawari-item reveal" style="transition-delay: 0.2s;">
+        <div class="kodawari-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M12 22c5.5 0 10-4.5 10-10h-4c0 3.3-2.7 6-6 6s-6-2.7-6-6c0-3.3 2.7-6 6-6V2C6.5 2 2 6.5 2 12s4.5 10 10 10z"/>
+          </svg>
+        </div>
+        <div class="kodawari-content">
+          <h3>レモンの香りを引き立てる抽出</h3>
+          <p>茶葉の香りとレモンの爽やかさを最大限に引き出すための独自の抽出方法。</p>
+        </div>
+      </div>
+      <div class="kodawari-item reveal" style="transition-delay: 0.3s;">
+        <div class="kodawari-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+          </svg>
+        </div>
+        <div class="kodawari-content">
+          <h3>甘くないのにおいしい</h3>
+          <p>素材の組み合わせ方にこだわり、無糖なのに満足感のあるおいしさを実現しました。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENJOY -->
+<section class="enjoy" id="enjoy">
+  <div class="enjoy-inner">
+    <h2 class="section-title reveal">楽しみ方いろいろ</h2>
+    <div class="enjoy-grid">
+      <div class="enjoy-card reveal" style="transition-delay: 0.1s;">
+        <div class="enjoy-card-visual scene-1">
+          <div class="enjoy-card-inner">
+            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="20" width="40" height="28" rx="3" stroke="#8B6914" stroke-width="2"/>
+              <rect x="15" y="8" width="30" height="16" rx="2" stroke="#8B6914" stroke-width="1.5"/>
+              <line x1="18" y1="34" x2="42" y2="34" stroke="#c8a84e" stroke-width="1.5"/>
+              <line x1="18" y1="38" x2="36" y2="38" stroke="#c8a84e" stroke-width="1.5"/>
+              <line x1="18" y1="42" x2="30" y2="42" stroke="#c8a84e" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </div>
+        <div class="enjoy-card-overlay">お仕事や勉強のリフレッシュに</div>
+      </div>
+      <div class="enjoy-card reveal" style="transition-delay: 0.2s;">
+        <div class="enjoy-card-visual scene-2">
+          <div class="enjoy-card-inner">
+            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="30" cy="42" rx="20" ry="8" stroke="#5a8c3c" stroke-width="2"/>
+              <path d="M15 30c0-8 6.7-15 15-15s15 7 15 15" stroke="#5a8c3c" stroke-width="2"/>
+              <circle cx="24" cy="34" r="3" fill="#e8c020" opacity="0.6"/>
+              <circle cx="36" cy="32" r="2" fill="#c8a84e" opacity="0.6"/>
+              <circle cx="30" cy="36" r="2.5" fill="#5a8c3c" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="enjoy-card-overlay">ランチや食事と一緒に</div>
+      </div>
+      <div class="enjoy-card reveal" style="transition-delay: 0.3s;">
+        <div class="enjoy-card-visual scene-3">
+          <div class="enjoy-card-inner">
+            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="24" r="12" stroke="#3d8fa8" stroke-width="2"/>
+              <path d="M22 24h16M30 16v16" stroke="#3d8fa8" stroke-width="1.5" opacity="0.3"/>
+              <path d="M12 42c4-4 12-6 18-2s12 2 18-2" stroke="#5a8c3c" stroke-width="2"/>
+              <path d="M8 48c6-4 14-4 22 0s16-2 22-4" stroke="#5a8c3c" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="enjoy-card-overlay">お出かけやアウトドアのお供に</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section class="closing" id="buy">
+  <div class="closing-inner">
+    <h2 class="reveal">香り立つレモンと紅茶で、<br>わたしの午後を心地よく。</h2>
+    <p class="product-sub reveal" style="transition-delay: 0.1s;">午後の紅茶 おいしい無糖 香るレモン</p>
+    <div class="closing-actions reveal" style="transition-delay: 0.2s;">
+      <a href="#" class="brand-link">
+        <div class="brand-logo-small">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+            <circle cx="12" cy="14" r="2" fill="white"/>
+          </svg>
+        </div>
+        <span>午後の紅茶シリーズ</span>
+        <span style="margin-left: 4px; font-size: 12px;">ブランドサイトはこちら &rarr;</span>
+      </a>
+      <a href="#" class="buy-btn">
+        ご購入はこちら
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span style="font-size: 16px;">&rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div>のんだあとはリサイクル。 キリンビバレッジ株式会社</div>
+  <div>COPYRIGHT © KIRIN BEVERAGE COMPANY, LIMITED.</div>
+</footer>
+
+<script>
+// Scroll reveal animations
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+reveals.forEach(el => observer.observe(el));
+
+// Smooth header shadow on scroll
+const header = document.querySelector('.header');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 10) {
+    header.style.boxShadow = '0 2px 16px rgba(0,0,0,0.1)';
+  } else {
+    header.style.boxShadow = '0 1px 8px rgba(0,0,0,0.06)';
+  }
+});
+
+// Parallax for hero decorations
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  const lemons = document.querySelectorAll('.lemon-deco');
+  const leaves = document.querySelectorAll('.leaf');
+  lemons.forEach((el, i) => {
+    el.style.transform = `translateY(${scrollY * 0.05 * (i + 1)}px)`;
+  });
+  leaves.forEach((el, i) => {
+    const base = el.style.transform || '';
+    el.style.transform = `rotate(${parseInt(el.className) || 20 + scrollY * 0.02}deg) translateY(${scrollY * 0.03 * (i + 1)}px)`;
+  });
+});
+</script>
+</body>
+</html>
